@@ -1,8 +1,10 @@
 local player = game.Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
 
+-- Create the main GUI frame
 local gui = Instance.new("ScreenGui", playerGui)
 gui.Name = "H01PKExecutorGUI"
+gui.ResetOnSpawn = false -- Prevent GUI from resetting on character respawn
 
 local frame = Instance.new("Frame", gui)
 frame.Size = UDim2.new(0, 500, 0, 300)
